@@ -34,3 +34,18 @@ Just like OS Threads, goroutines have states:
 
 ### How does context switching work when the goroutine makes a synchronous system call?
 - A new OS Thread is created and the logical processor is detached from the previous OS thread to the new one
+
+### How does context switching work when the goroutine makes an asynchronous system call?
+- Go uses `netpoller` to handle asynchronous system calls
+- `netpoller` uses the interface provided by the operating system to poll on the file descriptor and notifies the
+goroutine to try I/O operation when it is ready
+- This Application complexity of managing the asynchronous system calls is moved from the application to go runtime
+- And it is managed efficiently
+
+## Work Stealing
+- If there are no goroutines in the local run queue
+- Try to steal goroutines from the other logical processors
+- If there are no goroutines found from the other logical processors, try to steal goroutine form global runnable queue
+- If not found, then check the `netpoller`
+
+Work stealing helps in better distribution of the goroutines across all logical processors
