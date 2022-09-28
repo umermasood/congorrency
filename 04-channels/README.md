@@ -54,3 +54,8 @@ there is a receiver to receive the value.
 - We can specify the capacity of the buffer
 - The buffer indicates the number of values which can be sent without the receiver being ready to receive the values
 - The sender can keep sending the values without blocking till the buffer becomes full
+
+## Constraining channel direction
+- Channels are bidirectional by default
+- But we can change this default behavior by constraining one direction
+- We can use channel directions to write type-safe functions
