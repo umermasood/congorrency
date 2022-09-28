@@ -18,3 +18,19 @@ Go scheduler implements Asynchronous Preemption
 - They would just hog the CPU and prevent other goroutines from being executed
 - Preemption enables the scheduler to distribute running time among goroutines
 - Asynchronous Preemption is triggered based on a time condition
+
+### States of Goroutines
+Just like OS Threads, goroutines have states:
+
+1. Runnable State (When it is created)
+2. Executing State (When it is scheduled in the OS thread)
+3. If the goroutine is preempted, it's state becomes Runnable (it goes back the waiting queue)
+4. Waiting State (If the goroutine is blocked because of some event)
+5. Once the even which is causing the block is completed, goroutine moves back the runnable state
+
+- Number of OS threads depend on the value of `GOMAXPROCS`
+- Go runtime creates a logical processor and associates the OS thread with it
+- The context switching between the goroutines is managed by the logical processor 
+
+### How does context switching work when the goroutine makes a synchronous system call?
+- A new OS Thread is created and the logical processor is detached from the previous OS thread to the new one
